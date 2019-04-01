@@ -1,0 +1,62 @@
+<odoo>
+	<data>
+		
+		<record id="user_report_wizard_form" model="ir.ui.view">
+			<field name="name">Reporte Permisos de Usuarios</field>
+			<field name="model">user.report</field>
+			<field name="arch" type="xml">
+				<form string="Reporte Permisos de Usuarios">
+					<group col="4" string="Permisos de usuarios">
+						<field name="user" required="True"/>
+						<field name="model" required="False" widget="many2many_tags"/>
+					</group>
+					<group col="4">
+						<field name="menus"/>
+						<field name="inherits"/>
+						<field name="rules"/>
+						<field name="views"/>
+						<field name="notes"/>
+					</group>
+					<footer>
+						<button name="%(permit_report)d" string="Imprimir Reporte" type="action"/>
+						<!--<button name="print_report" type="object" string="Imprimir Pdf" class="btn-primary"/>-->
+					</footer>
+				</form>
+			</field>
+		</record>
+		
+		<record id="partner_report_wizard_action" model="ir.actions.act_window">
+			<field name="name">Reporte Permisos</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">user.report</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="user_report_wizard_form"/>
+			<field name="target">new</field>
+		</record>
+		
+		<menuitem
+				id="user_report_menu_id"
+				name="Imprimir Permisos de Usuarios"
+				parent="base.menu_users"
+				action="partner_report_wizard_action"
+				sequence="1"/>
+		
+		
+		<record id="user_report_save_form" model="ir.ui.view">
+			<field name="name">Reporte</field>
+			<field name="model">save.user.report.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Reporte Usuarios">
+					<field name="name" invisible="1"/>
+					<div>
+						<h2>Reporte de Usuarios</h2>
+						<p>Descagar reporte : <field name="data" readonly="1" filename="name"/></p>
+					</div>
+					<footer><button string="Cerrar" class="btn-default" special="cancel"/></footer>
+				
+				</form>
+			</field>
+		</record>
+	</data>
+</odoo>
