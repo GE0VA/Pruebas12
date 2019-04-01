@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="user_report_template">
+			
+			<t t-call="web.html_container">
+				<t t-call="web.basic_layout">
+					<div class="page">
+						<div t-foreach="docs" t-as="o">
+							<style>
+								
+								parent_table{
+								border-collapse: collapse;
+								width: 100%;
+								page-break-inside: avoid
+								padding: 20px 4px;
+								}
+								
+								parent_table tr {
+								page-break-inside: avoid
+								}
+								
+								table tr {
+								page-break-inside: avoid
+								}
+								.
+								table tr {
+								page-break-inside: avoid
+								}
+								
+								#table_style {
+								border-collapse: collapse;
+								width: 100%;
+								}
+								
+								#table_style td {
+								border-top: 1px solid #ddd;
+								border-bottom: 1px solid #ddd;
+								padding: 10px 4px;
+								
+								}
+								
+								
+								#table_style tr:nth-child(odd){
+								background-color: #f2f2f2;
+								padding: 4px 4px;
+								}
+								
+								#table_style th {
+								background-color: white;
+								padding: 5px 4px;
+								}
+							
+							</style>
+							
+							<div width="100%" style="margin-top:5px;font-size: 12px;text-align:center;">
+								<h3><strong>Permisos del Usuario <span t-field="o.user.name"/></strong></h3>
+							</div>
+							<div width="100%" style="text-align:left;">
+								<span>Creado el:</span><span t-esc="o.get_date_with_tz()"/><Br/>
+								<span>Usuario:</span><span t-esc="o.get_user()"/><Br/>
+							</div>
+							
+							<div style="margin-top:30px;border-top:1px solid black;font-size: 8px;" >
+								<t t-foreach="o.get_data(o.user)" t-as="line">
+									<div style="font-size:13px;border: 1px solid black;padding:3px;margin:15px 0px;">
+										<div width="100%" style="font-size:10px;margin:15px 0px;">
+											<div> <H3>Grupo: <span t-field="line.name"/></H3> </div>
+											<t t-if="o.notes">
+												<t t-if="line.comment">
+													<div width="100%"> <span  style="font-size:15px;" ><strong>Comentarios del Grupo</strong></span> <Br></Br>
+														<span style="font-size:13px;" t-field="line.comment"/>
+													</div>
+												</t>
+												<t t-else="">
+													<div style="font-size:13px;">Este grupo no tiene Notas</div>
+												</t>
+											</t>
+										</div>
+										<t t-if="o.inherits">
+											<t t-if="line.implied_ids">
+												<table id="table_style" width="100%" >
+													<tr style="line-height: 8px;font-size:12px;">
+														<th style="text-align: left;" >Nombre grupo Heredado</th>
+													</tr>
+													<t t-foreach="line.implied_ids" t-as="in_line">
+														<tr style="line-height: 8px;font-size:10px;">
+															<td style="text-align: left;" ><span t-field="in_line.name"/></td>
+														</tr>
+													</t>
+												</table>
+											
+											</t>
+											<t t-if="len(line.implied_ids)==0">
+												<div>Este Grupo no posee grupos Heredados</div>
+											</t>
+										</t>
+										<t t-if="line.model_access">
+											<div width="100%" style="margin:10px 0px;">
+												<table id="table_style" width="100%" >
+													<tr style="line-height: 10px;font-size:12px;">
+														<th style="text-align: left;width:15%" >Nombre en Modelo</th>
+														<th style="text-align: left;width:15%" >Modelo</th>
+														<th style="text-align: left;width:15%" >Esta en</th>
+														<th style="text-align: left;width:10%" >Lectura</th>
+														<th style="text-align: left;width:10%" >Escritura</th>
+														<th style="text-align: left;width:10%" >Creación</th>
+														<th style="text-align: left;width:10%" >Borrado</th>
+														<th style="text-align: left;width:15%" >Nombre</th>
+													</tr>
+													<t t-foreach="line.model_access" t-as="ma_line">
+														<t t-if="o.model">
+															<t t-foreach="o.model" t-as="model">
+																<t t-if="ma_line.model_id.id == model.id">
+																	<tr style="line-height: 10px;font-size:10px;">
+																		<td style="text-align: left;" ><span t-field="ma_line.model_id.name"/></td>
+																		<td style="text-align: left;" ><span t-field="ma_line.model_id.model"/></td>
+																		<td style="text-align: left;" ><span t-field="ma_line.model_id.modules"/></td>
+																		<td style="text-align: left;" ><span t-field="ma_line.perm_read"/></td>
+																		<td style="text-align: left;" ><span t-field="ma_line.perm_write"/></td>
+																		<td style="text-align: left;" ><span t-field="ma_line.perm_create"/></td>
+																		<td style="text-align: left;" ><span t-field="ma_line.perm_unlink"/></td>
+																		<td style="text-align: left;" ><span t-field="ma_line.name"/></td>
+																	</tr>
+																</t>
+															</t>
+														</t>
+														<t t-else="">
+															<tr style="line-height: 10px;font-size:10px;">
+																<td style="text-align: left;" ><span t-field="ma_line.model_id.name"/></td>
+																<td style="text-align: left;" ><span t-field="ma_line.model_id.model"/></td>
+																<td style="text-align: left;" ><span t-field="ma_line.model_id.modules"/></td>
+																<td style="text-align: left;" ><span t-field="ma_line.perm_read"/></td>
+																<td style="text-align: left;" ><span t-field="ma_line.perm_write"/></td>
+																<td style="text-align: left;" ><span t-field="ma_line.perm_create"/></td>
+																<td style="text-align: left;" ><span t-field="ma_line.perm_unlink"/></td>
+																<td style="text-align: left;" ><span t-field="ma_line.name"/></td>
+															</tr>
+														</t>
+													</t>
+												</table>
+											</div>
+										</t>
+									</div>
+								</t>
+							
+							</div>
+							<p style="font-size: 10px;">
+							
+							</p>
+						
+						</div>
+					</div>
+				</t>
+			</t>
+		
+		</template>
+		
+		<report
+				id="permit_report"
+				model="user.report"
+				string="Permisos de Usuario"
+				report_type="qweb-pdf"
+				name="permits_report_qweb.user_report_template"
+				file="permits_report_qweb.user_report_template"
+		/>
+	</data>
+</odoo>

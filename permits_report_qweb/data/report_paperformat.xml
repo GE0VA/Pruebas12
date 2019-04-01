@@ -1,0 +1,21 @@
+<odoo>
+	<data>
+		<record id="paper_permits_report" model="report.paperformat">
+			<field name="name">Papel Reporte de Permisos</field>
+			<field name="default" eval="True"/>
+			<field name="format">custom</field>
+			<field name="orientation">Landscape</field>
+			<field name="page_height">279</field>
+			<field name="page_width">215</field>
+			<field name="margin_top">5</field>
+			<field name="margin_bottom">5</field>
+			<field name="margin_left">7</field>
+			<field name="margin_right">7</field>
+			<field name="header_line" eval="False"/>
+			<field name="header_spacing">0</field>
+			<field name="dpi">90</field>
+			<field name="report_ids" eval="[(4, ref('permit_report'))]"/>
+		</record>
+		
+	</data>
+</odoo>
